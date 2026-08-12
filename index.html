@@ -47,6 +47,7 @@ img{display:block}button{font-family:inherit}
 .btn-verm:hover{background:#F0663C}
 .btn-fant{background:transparent;color:var(--papel);border-color:rgba(255,255,255,.55);box-shadow:0 4px 0 rgba(0,0,0,.45)}
 .btn-fant:hover{background:rgba(255,255,255,.08);box-shadow:0 6px 0 rgba(0,0,0,.45)}
+.btn-fant.ativo{background:var(--verm);border-color:var(--tinta);color:#fff}
 .btn-mini{padding:8px 12px;font-size:12px;border-radius:8px;min-height:36px}
 .btn-block{width:100%}
 .topbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 20px;position:sticky;top:0;z-index:30;
@@ -59,7 +60,9 @@ img{display:block}button{font-family:inherit}
 .pdv-hoje b{color:var(--am2)}
 .chip-grupo,.chip-vend{font:800 12px 'Archivo';letter-spacing:.04em;color:#fff;background:var(--am);border:2px solid var(--tinta);border-radius:999px;padding:8px 14px;cursor:pointer;box-shadow:0 3px 0 var(--tinta);transition:.15s;min-height:36px;display:inline-flex;align-items:center;gap:6px}
 .chip-vend{background:var(--papel);color:var(--tinta)}
-.chip-grupo:hover,.chip-vend:hover{transform:translateY(-2px)}
+.chip-teste{background:var(--papel2);color:var(--tinta)}
+.chip-teste.on-teste{background:var(--verm);color:#fff}
+.chip-grupo:hover,.chip-vend:hover,.chip-teste:hover{transform:translateY(-2px)}
 .chip-sync{font-size:12px;border:1.5px solid rgba(255,255,255,.4);border-radius:999px;padding:5px 10px;background:rgba(255,255,255,.07);color:var(--papel);cursor:default}
 .tela.on{animation:rise .35s both}
 #tela-home.on{display:block}
@@ -120,8 +123,9 @@ img{display:block}button{font-family:inherit}
 .tk-store{font-family:'Archivo Black';font-size:15px;letter-spacing:.03em}
 .tk-num{font-size:12px;margin-top:4px;color:rgba(11,36,71,.75)}
 .tk-vend{font-size:11px;color:var(--am);font-weight:700;margin-top:3px}
+.tk-teste{margin-top:5px;font:800 11px 'Archivo';color:var(--verm);letter-spacing:.06em;border:2px dashed var(--verm);border-radius:6px;padding:4px 6px}
 .tk-date{font-size:11px;color:rgba(11,36,71,.55);text-transform:capitalize}
-.tk-itens{max-height:34vh;min-height:110px;overflow-y:auto;padding:6px 14px}
+.tk-itens{max-height:32vh;min-height:110px;overflow-y:auto;padding:6px 14px}
 .tk-vazio{text-align:center;padding:34px 0;font-family:'Space Mono';font-weight:700;font-size:13px;color:rgba(11,36,71,.5)}
 .tk-vazio small{font-family:'Archivo';font-weight:600;display:block;margin-top:6px;font-size:12px}
 .ti{padding:9px 0;border-bottom:1px dashed rgba(11,36,71,.25);animation:pop .25s both}
@@ -222,12 +226,14 @@ img{display:block}button{font-family:inherit}
 .venda-card summary:hover{background:var(--papel2)}
 .vc-pag{background:var(--v700);color:#fff;padding:3px 9px;border-radius:6px;font-size:12px;letter-spacing:.04em}
 .vc-grp{background:var(--am);border:1.5px solid var(--tinta);color:#fff;padding:3px 9px;border-radius:6px;font-size:12px}
+.vc-teste{background:var(--verm);border:1.5px solid var(--tinta);color:#fff;padding:3px 9px;border-radius:6px;font-size:12px}
 .vc-vend{background:var(--papel2);border:1.5px solid var(--tinta);color:var(--tinta);padding:3px 9px;border-radius:6px;font-size:12px}
 .vc-total{margin-left:auto;font-weight:700;font-size:17px}
 .vc-itens{border-top:2px dashed rgba(11,36,71,.3);padding:10px 16px 12px;font-size:13px}
 .vc-itens div{display:flex;gap:8px;padding:3px 0}
 .vc-itens b{margin-left:auto}
 .vc-troco{margin-top:6px;font:700 12px 'Space Mono';color:var(--v700)}
+.h-testes{font-family:'Archivo Black';font-size:15px;margin:26px 0 12px;color:var(--verm)}
 .conf-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
 .st-bar{height:12px;background:var(--papel2);border:2px solid var(--tinta);border-radius:99px;overflow:hidden;margin:10px 0 8px}
 .st-bar div{height:100%;background:linear-gradient(90deg,var(--ok),var(--am));width:2%}
@@ -247,8 +253,10 @@ img{display:block}button{font-family:inherit}
 .stamp-wrap{position:fixed;inset:0;z-index:80;display:none;place-items:center;background:rgba(3,20,45,.6);backdrop-filter:blur(3px)}
 .stamp-wrap.on{display:grid}
 .stamp{background:var(--papel);color:var(--tinta);border:4px solid var(--tinta);border-radius:8px;padding:26px 40px;text-align:center;transform:rotate(-6deg);box-shadow:0 0 0 6px rgba(47,128,237,.35),0 16px 0 rgba(0,0,0,.4)}
+.stamp.teste{box-shadow:0 0 0 6px rgba(228,87,46,.4),0 16px 0 rgba(0,0,0,.4)}
 .stamp-wrap.on .stamp{animation:stampIn .5s cubic-bezier(.2,1.8,.4,1) both}
 .stamp .ok{font-family:'Archivo Black';font-size:27px;color:var(--ok);letter-spacing:.02em}
+.stamp.teste .ok{color:var(--verm)}
 .stamp .num{font-size:14px;font-weight:700;margin:6px 0 2px}
 .stamp .tt{font-family:'Space Mono';font-weight:700;font-size:32px}
 .stamp .tt2{font-family:'Space Mono';font-weight:700;font-size:20px;color:var(--verm);margin-top:4px}
@@ -338,6 +346,7 @@ img{display:block}button{font-family:inherit}
     <div class="brand"><span class="tag">CAIXA</span><span class="loja-nome">Minha Loja</span></div>
     <button class="chip-vend" id="chipVend" title="trocar vendedor">👤 —</button>
     <button class="chip-grupo" id="chipGrupo" title="trocar grupo">🏷 Todos</button>
+    <button class="chip-teste" id="chipTeste" title="modo teste: simula vendas sem contar no oficial">🧪 TESTE</button>
     <span class="chip-sync" id="chipSync" hidden>☁️</span>
     <span class="pdv-hoje">HOJE: <b id="pdvNV">0</b> · <b id="pdvFat">R$ 0,00</b></span>
     <div class="clock"><span class="js-clock">--:--</span><small class="js-date"></small></div>
@@ -347,7 +356,7 @@ img{display:block}button{font-family:inherit}
     <section>
       <div class="busca">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B2447" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input id="inpBusca" placeholder="Buscar produto…  " autocomplete="off">
+        <input id="inpBusca" placeholder="Buscar produto… " autocomplete="off">
       </div>
       <div class="grid-prods" id="gridProds"></div>
     </section>
@@ -359,6 +368,7 @@ img{display:block}button{font-family:inherit}
             <div class="tk-store loja-nome">Minha Loja</div>
             <div class="tk-num mono">CUPOM Nº <b id="tkNum">0001</b></div>
             <div class="tk-vend mono" id="tkVend"></div>
+            <div class="tk-teste" id="tkTeste" hidden>🧪 MODO TESTE — NÃO CONTA NO OFICIAL</div>
             <div class="tk-date mono js-date"></div>
           </div>
           <div class="tk-itens" id="tkItens"></div>
@@ -472,17 +482,21 @@ img{display:block}button{font-family:inherit}
         <select id="selVendRel"></select>
         <select id="selGrupoRel"></select>
         <span style="flex:1"></span>
+        <button class="btn btn-mini btn-fant" id="btnVerTestes">🧪 TESTES</button>
         <button class="btn btn-mini btn-fant" id="btnCSV">⬇ CSV</button>
         <button class="btn btn-mini" id="btnImprimir">🖨 IMPRIMIR</button>
+        <button class="btn btn-mini btn-verm" id="btnApagarVendas">🗑 APAGAR VENDAS</button>
       </div>
       <div class="rel-top">
-        <div class="blk blk-fat"><small>FATURAMENTO · <span id="relData"></span></small><b id="relFat">R$ 0,00</b><i id="relNVendas">0 vendas</i></div>
+        <div class="blk blk-fat"><small>FATURAMENTO OFICIAL · <span id="relData"></span></small><b id="relFat">R$ 0,00</b><i id="relNVendas">0 vendas</i></div>
         <div class="blk blk-din"><small>💵 DINHEIRO</small><b id="relDin">R$ 0,00</b><i id="relDinN">0 vendas</i></div>
         <div class="blk blk-car"><small>💳 CARTÃO</small><b id="relCar">R$ 0,00</b><i id="relCarN">0 vendas</i></div>
         <div class="blk blk-pix"><small>⚡ PIX</small><b id="relPix">R$ 0,00</b><i id="relPixN">0 vendas</i></div>
       </div>
-      <h2 style="font-family:'Archivo Black';font-size:15px;margin-bottom:12px;color:var(--papel)">VENDAS DO DIA <span style="color:var(--am2)" id="relData2"></span></h2>
+      <h2 style="font-family:'Archivo Black';font-size:15px;margin-bottom:12px;color:var(--papel)">VENDAS OFICIAIS DO DIA <span style="color:var(--am2)" id="relData2"></span></h2>
       <div id="relVendas"></div>
+      <h2 class="h-testes" id="hTestes" hidden>🧪 VENDAS DE TESTE (não entram no faturamento)</h2>
+      <div id="relTestes"></div>
     </div>
 
     <div class="conf-grid" id="painel-conf" hidden>
@@ -508,7 +522,7 @@ img{display:block}button{font-family:inherit}
           <button class="btn btn-mini" type="button" id="btnGsEnviar">⬆ ENVIAR TUDO</button>
           <button class="btn btn-mini btn-fant" type="button" id="btnGsBuscar" style="color:var(--tinta);border-color:var(--tinta)">⬇ BAIXAR DA PLANILHA</button>
         </div>
-        <p class="nota">Sincronização automática a cada 10 segundos, com reenvio garantido até a planilha confirmar. <b>Fotos ficam somente neste aparelho</b>. Se aparecer ❌, verifique a implantação (acesso "Qualquer pessoa").</p>
+        <p class="nota">Sincronização automática a cada 10 segundos, com reenvio garantido até a planilha confirmar. <b>Fotos ficam somente neste aparelho</b>. Para zerar as vendas use o botão 🗑 APAGAR VENDAS no relatório (apagar direto na planilha faz o aparelho reenviar).</p>
       </div>
       <div class="card">
         <h2>ARMAZENAMENTO</h2>
@@ -558,8 +572,8 @@ img{display:block}button{font-family:inherit}
 </div>
 
 <div class="stamp-wrap" id="stamp">
-  <div class="stamp">
-    <div class="ok">✓ VENDA REGISTRADA</div>
+  <div class="stamp" id="stampBox">
+    <div class="ok" id="stOk">✓ VENDA REGISTRADA</div>
     <div class="num mono" id="stNum">#0001</div>
     <div class="tt mono" id="stTotal">R$ 0,00</div>
     <div class="tt2 mono" id="stTroco" hidden></div>
@@ -604,17 +618,19 @@ const iniciais=n=>n.trim().split(/\s+/).slice(0,2).map(p=>p[0]).join('').toUpper
 const CORES=['#CFE4FF','#BFD9F2','#DCEBFF','#A9C7E8','#E8F1FF','#B7CFEA'];
 const phColor=id=>{let h=0;for(const c of id)h=(h*31+c.charCodeAt(0))>>>0;return CORES[h%CORES.length];};
 
-let produtos=[], vendas=[], grupos=[], vendedores=[], CFG={};
+let produtos=[], vendas=[], vendasTeste=[], grupos=[], vendedores=[], CFG={};
 let carrinho=new Map(), pagSel='dinheiro', grupoSel='todos', vendSel=null, editId=null, fotoAtual=null;
+let modoTeste=false, verTestes=false;
 let camStream=null, camFacing='environment';
 let importando=false;
 
 function loadAll(){
   try{produtos=JSON.parse(localStorage.getItem('pdv_produtos')||'[]');}catch(e){produtos=[];}
   try{vendas=JSON.parse(localStorage.getItem('pdv_vendas')||'[]');}catch(e){vendas=[];}
+  try{vendasTeste=JSON.parse(localStorage.getItem('pdv_vendas_teste')||'[]');}catch(e){vendasTeste=[];}
   try{grupos=JSON.parse(localStorage.getItem('pdv_grupos')||'[]');}catch(e){grupos=[];}
   try{vendedores=JSON.parse(localStorage.getItem('pdv_vendedores')||'[]');}catch(e){vendedores=[];}
-  CFG={loja:'Minha Loja',senhaHash:hash('1234'),proxNum:1,grupoSel:'todos'};
+  CFG={loja:'Minha Loja',senhaHash:hash('1234'),proxNum:1,proxNumTeste:1,grupoSel:'todos',limpezaTs:0};
   try{Object.assign(CFG,JSON.parse(localStorage.getItem('pdv_cfg')||'{}'));}catch(e){}
   if(!CFG.senhaHash)CFG.senhaHash=hash('1234');
   grupoSel=CFG.grupoSel||'todos';
@@ -623,11 +639,11 @@ function loadAll(){
     carrinho=new Map(c.filter(it=>produtos.some(p=>p.id===it.id)).map(it=>[it.id,it]));
   }catch(e){carrinho=new Map();}
 }
-/* salvar local — publicação na planilha só em ações de ADMIN (explícitas) */
 const saveProds=()=>localStorage.setItem('pdv_produtos',JSON.stringify(produtos));
 const saveGrupos=()=>{localStorage.setItem('pdv_grupos',JSON.stringify(grupos)); if(!importando)enfileirar('grupos',grupos);};
 const saveVends=()=>{localStorage.setItem('pdv_vendedores',JSON.stringify(vendedores)); if(!importando)enfileirar('vendedores',vendedores);};
 const saveVendas=()=>localStorage.setItem('pdv_vendas',JSON.stringify(vendas));
+const saveVendasTeste=()=>localStorage.setItem('pdv_vendas_teste',JSON.stringify(vendasTeste));
 const saveCfg=()=>localStorage.setItem('pdv_cfg',JSON.stringify(CFG));
 const saveCart=()=>localStorage.setItem('pdv_carrinho',JSON.stringify([...carrinho.values()]));
 const aplicarNome=()=>$$('.loja-nome').forEach(e=>e.textContent=CFG.loja||'Minha Loja');
@@ -638,7 +654,6 @@ const sync={fila:[],ocupado:false,falhas:0};
 let ultimaCarga=null;
 function filaLoad(){try{sync.fila=JSON.parse(localStorage.getItem('pdv_fila')||'[]');}catch(e){sync.fila=[];}}
 function filaSave(){localStorage.setItem('pdv_fila',JSON.stringify(sync.fila.slice(-50)));}
-/* publica a lista de produtos SEM a reserva do cupom aberto (estoque real) */
 function publicarProdutos(){
   if(!SCRIPT_URL||importando)return;
   enfileirar('produtos',produtos.map(p=>{
@@ -668,6 +683,10 @@ function processarFila(){
       if(sync.fila.length&&sync.falhas<5)setTimeout(processarFila,300);
     });
 }
+function descartarVendasDaFila(){
+  sync.fila=sync.fila.filter(f=>f.action!=='venda'&&f.action!=='vendaTeste');
+  filaSave();
+}
 async function puxarSheet(){
   if(!SCRIPT_URL||!navigator.onLine)return false;
   try{
@@ -676,8 +695,19 @@ async function puxarSheet(){
     const d=j&&j.dados?j.dados:null;
     if(!d)throw 0;
     ultimaCarga=d;sync.falhas=0;
+    let limpou=false;
+    /* 🧹 limpeza feita pelo botão APAGAR VENDAS vale para todos os aparelhos */
+    const lz=(d.meta&&d.meta.limpeza)||0;
+    if(lz>(CFG.limpezaTs||0)){
+      importando=true;
+      vendas=[];vendasTeste=[];
+      descartarVendasDaFila();
+      CFG.limpezaTs=lz;CFG.proxNum=1;CFG.proxNumTeste=1;
+      saveVendas();saveVendasTeste();saveCfg();
+      importando=false;
+      limpou=true;
+    }
     const fotos={};produtos.forEach(p=>{if(p.foto)fotos[p.id]=p.foto;});
-    /* estoque da planilha menos a reserva do cupom aberto neste aparelho */
     const nProds=(d.produtos||[]).map(p=>{
       const it=carrinho.get(p.id);
       return {...p,foto:fotos[p.id]||null,estoque:Math.max(0,(p.estoque||0)-(it?it.qtd:0))};
@@ -685,39 +715,42 @@ async function puxarSheet(){
     const nGrupos=d.grupos||[];
     const nVends=d.vendedores||[];
     const ids=new Set((d.vendas||[]).map(v=>v.id));
-    const nVendas=(d.vendas||[]).concat(vendas.filter(v=>!ids.has(v.id)))
-      .sort((a,b)=>(a.numero||0)-(b.numero||0));
+    const nVendas=(d.vendas||[]).concat(vendas.filter(v=>!ids.has(v.id))).sort((a,b)=>(a.numero||0)-(b.numero||0));
+    const idsT=new Set((d.vendasTeste||[]).map(v=>v.id));
+    const nTestes=(d.vendasTeste||[]).concat(vendasTeste.filter(v=>!idsT.has(v.id))).sort((a,b)=>(a.numero||0)-(b.numero||0));
     const strip=a=>JSON.stringify(a.map(p=>{const{foto,...r}=p;return r;}));
     const mudou=
       strip(nProds)!==strip(produtos)||
       JSON.stringify(nGrupos)!==JSON.stringify(grupos)||
       JSON.stringify(nVends)!==JSON.stringify(vendedores)||
-      JSON.stringify(nVendas.map(v=>v.id+'|'+v.numero+'|'+v.total))!==JSON.stringify(vendas.map(v=>v.id+'|'+v.numero+'|'+v.total));
+      JSON.stringify(nVendas.map(v=>v.id+'|'+v.numero+'|'+v.total))!==JSON.stringify(vendas.map(v=>v.id+'|'+v.numero+'|'+v.total))||
+      JSON.stringify(nTestes.map(v=>v.id))!==JSON.stringify(vendasTeste.map(v=>v.id));
     if(mudou){
       importando=true;
-      produtos=nProds;grupos=nGrupos;vendedores=nVends;vendas=nVendas;
+      produtos=nProds;grupos=nGrupos;vendedores=nVends;vendas=nVendas;vendasTeste=nTestes;
       CFG.proxNum=vendas.reduce((m,v)=>Math.max(m,v.numero||0),0)+1;
-      saveProds();saveGruposLocal();saveVendsLocal();saveVendas();
-      saveCfg();
+      CFG.proxNumTeste=vendasTeste.reduce((m,v)=>Math.max(m,v.numero||0),0)+1;
+      saveProds();localStorage.setItem('pdv_grupos',JSON.stringify(grupos));
+      localStorage.setItem('pdv_vendedores',JSON.stringify(vendedores));
+      saveVendas();saveVendasTeste();saveCfg();
       importando=false;
     }
     atualizaChipSync();
-    return mudou?'mudou':'ok';
+    return (mudou||limpou)?'mudou':'ok';
   }catch(e){
     importando=false;sync.falhas++;atualizaChipSync();
     return false;
   }
 }
-const saveGruposLocal=()=>localStorage.setItem('pdv_grupos',JSON.stringify(grupos));
-const saveVendsLocal=()=>localStorage.setItem('pdv_vendedores',JSON.stringify(vendedores));
-/* venda que ainda não chegou na planilha é reenviada (servidor ignora duplicadas) */
 function repushFaltando(){
   if(!SCRIPT_URL||!ultimaCarga)return;
   const ids=new Set((ultimaCarga.vendas||[]).map(v=>v.id));
   vendas.forEach(v=>{
-    if(!ids.has(v.id)&&!sync.fila.some(f=>f.action==='venda'&&f.data&&f.data.id===v.id)){
-      enfileirar('venda',v);
-    }
+    if(!ids.has(v.id)&&!sync.fila.some(f=>f.action==='venda'&&f.data&&f.data.id===v.id))enfileirar('venda',v);
+  });
+  const idsT=new Set((ultimaCarga.vendasTeste||[]).map(v=>v.id));
+  vendasTeste.forEach(v=>{
+    if(!idsT.has(v.id)&&!sync.fila.some(f=>f.action==='vendaTeste'&&f.data&&f.data.id===v.id))enfileirar('vendaTeste',v);
   });
 }
 setInterval(async()=>{
@@ -755,7 +788,7 @@ function go(t){
   $$('.tela').forEach(x=>{const on=x.id==='tela-'+t;x.hidden=!on;x.classList.toggle('on',on);});
   window.scrollTo(0,0);document.body.classList.remove('ticket-open');
   if(t==='home')renderHomeStats();
-  if(t==='venda'){updateVendChip();updateGrupoChip();renderGrid();renderTicket();}
+  if(t==='venda'){updateVendChip();updateGrupoChip();updateTesteUI();renderGrid();renderTicket();}
   if(t==='admin'){renderProdutos();renderGrupos();renderVends();renderGrpChecks();renderRelatorio();renderConfig();atualizaChipSync();}
 }
 let toastT;
@@ -802,6 +835,20 @@ $('#btnFecharVend').onclick=()=>$('#vendModal').classList.remove('on');
 function updateVendChip(){$('#chipVend').textContent='👤 '+(vendSel?vendSel.nome:'Sem vendedor');}
 $('#chipVend').onclick=()=>{ if(vendedores.length)abrirModalVendedor(); else toast('Cadastre vendedores na aba VENDEDORES do admin'); };
 
+/* 🧪 MODO TESTE */
+$('#chipTeste').onclick=()=>{
+  modoTeste=!modoTeste;
+  carrinho.clear();saveCart();
+  updateTesteUI();renderGrid();renderTicket();
+  toast(modoTeste?'Modo TESTE ativado — vendas não contam no oficial':'Modo TESTE desativado');
+};
+function updateTesteUI(){
+  const c=$('#chipTeste');
+  c.textContent=modoTeste?'🧪 TESTE: ON':'🧪 TESTE';
+  c.classList.toggle('on-teste',modoTeste);
+  $('#tkTeste').hidden=!modoTeste;
+}
+
 function renderGrupoModal(){
   const items=[{id:'todos',nome:'Todos os produtos',n:produtos.length},
     ...grupos.map(g=>({id:g.id,nome:g.nome,n:produtos.filter(p=>(p.grupos||[]).includes(g.id)).length}))];
@@ -822,7 +869,7 @@ $('#grupoLista').addEventListener('click',e=>{
 $('#btnFecharGrupo').onclick=()=>$('#grupoModal').classList.remove('on');
 $('#chipGrupo').onclick=()=>{ if(grupos.length)abrirSeletorGrupo(); else toast('Crie grupos na aba GRUPOS do admin'); };
 
-/* ================= GRID (ordem alfabética) ================= */
+/* ================= GRID ================= */
 function renderGrid(){
   let lista=produtos;
   if(grupoSel&&grupoSel!=='todos')lista=lista.filter(p=>(p.grupos||[]).includes(grupoSel));
@@ -834,11 +881,11 @@ function renderGrid(){
     g.innerHTML=`<div class="estado-vazio">${produtos.length?'Nenhum produto encontrado neste grupo/busca.':'Nenhum produto cadastrado ainda.<br>Entre no modo <b>Administrador</b> para criar seus itens.'}</div>`;
   }else{
     g.innerHTML=lista.map((p,i)=>{
-      const off=p.estoque<=0;
+      const off=p.estoque<=0&&!modoTeste;
       const foto=p.foto?`<img src="${p.foto}" alt="">`:`<div class="pc-ph" style="background:${phColor(p.id)}">${iniciais(p.nome)}</div>`;
       return `<button class="prod-card ${off?'off':''}" data-add="${p.id}" ${off?'disabled':''} style="animation:rise .35s ${Math.min(i*30,300)}ms both">
         <div class="pc-foto">${foto}</div>
-        <span class="pc-est ${p.estoque<=3&&!off?'baixo':''}">${off?'ESGOTADO':'ESTOQUE '+p.estoque}</span>
+        <span class="pc-est ${p.estoque<=3?'baixo':''}">${p.estoque<=0?'ESGOTADO':'ESTOQUE '+p.estoque}</span>
         <div class="pc-body"><b>${esc(p.nome)}</b></div>
         <span class="pc-tag mono">${fmt(p.preco)}</span>
       </button>`;
@@ -849,11 +896,12 @@ function renderGrid(){
 }
 $('#gridProds').addEventListener('click',e=>{
   const card=e.target.closest('[data-add]');if(!card)return;
-  const p=produtos.find(x=>x.id===card.dataset.add);if(!p||p.estoque<=0)return;
-  p.estoque--;
+  const p=produtos.find(x=>x.id===card.dataset.add);if(!p)return;
+  if(p.estoque<=0&&!modoTeste)return;
+  if(!modoTeste){p.estoque--;saveProds();}
   const it=carrinho.get(p.id);
   if(it)it.qtd++;else carrinho.set(p.id,{id:p.id,nome:p.nome,preco:p.preco,qtd:1});
-  saveProds();saveCart();fly(card);renderGrid();renderTicket();
+  saveCart();fly(card);renderGrid();renderTicket();
 });
 function fly(from){
   if(window.innerWidth<=960)return;
@@ -892,7 +940,7 @@ function updateTroco(){
 }
 function renderTicket(){
   const arr=[...carrinho.values()];
-  $('#tkNum').textContent=String(CFG.proxNum).padStart(4,'0');
+  $('#tkNum').textContent=(modoTeste?'T'+String(CFG.proxNumTeste).padStart(3,'0'):String(CFG.proxNum).padStart(4,'0'));
   $('#tkVend').textContent='VENDEDOR: '+(vendSel?vendSel.nome.toUpperCase():'—');
   $('#tkItens').innerHTML=arr.length?arr.map(it=>`
     <div class="ti">
@@ -907,7 +955,7 @@ function renderTicket(){
         <button class="ti-x" data-acao="rem" data-id="${it.id}" title="remover">✕</button>
       </div>
     </div>`).join('')
-  :`<div class="tk-vazio">— NENHUM ITEM —<br><small>toque nos produtos para lançar no cupom<br>(o estoque baixa na hora)</small></div>`;
+  :`<div class="tk-vazio">— NENHUM ITEM —<br><small>toque nos produtos para lançar no cupom${modoTeste?'':'<br>(o estoque baixa na hora)'}</small></div>`;
   const total=totalCarrinho();
   const n=arr.reduce((s,i)=>s+i.qtd,0);
   animateTotal(total);
@@ -921,23 +969,34 @@ function devolve(id,q){const p=produtos.find(x=>x.id===id);if(p){p.estoque+=q;sa
 $('#tkItens').addEventListener('click',e=>{
   const b=e.target.closest('[data-acao]');if(!b)return;
   const id=b.dataset.id,it=carrinho.get(id);if(!it)return;
-  if(b.dataset.acao==='menos'){it.qtd--;devolve(id,1);if(it.qtd<=0)carrinho.delete(id);}
-  else if(b.dataset.acao==='mais'){
-    const p=produtos.find(x=>x.id===id);
-    if(!p||p.estoque<=0){toast('Estoque máximo');return;}
-    p.estoque--;saveProds();it.qtd++;renderGrid();
+  if(b.dataset.acao==='menos'){
+    it.qtd--;
+    if(!modoTeste)devolve(id,1);
+    if(it.qtd<=0)carrinho.delete(id);
   }
-  else{devolve(id,it.qtd);carrinho.delete(id);}
+  else if(b.dataset.acao==='mais'){
+    if(!modoTeste){
+      const p=produtos.find(x=>x.id===id);
+      if(!p||p.estoque<=0){toast('Estoque máximo');return;}
+      p.estoque--;saveProds();renderGrid();
+    }
+    it.qtd++;
+  }
+  else{ if(!modoTeste)devolve(id,it.qtd); carrinho.delete(id); }
   saveCart();renderTicket();
 });
 $('#tkItens').addEventListener('change',e=>{
   if(!e.target.classList.contains('ti-q'))return;
   const it=carrinho.get(e.target.dataset.id);if(!it)return;
-  const p=produtos.find(x=>x.id===it.id);if(!p)return;
-  const max=it.qtd+p.estoque;
-  let q=Math.max(1,parseInt(e.target.value)||1);q=Math.min(q,Math.max(1,max));
-  p.estoque-=q-it.qtd;it.qtd=q;
-  saveProds();saveCart();renderGrid();renderTicket();
+  let q=Math.max(1,parseInt(e.target.value)||1);
+  if(!modoTeste){
+    const p=produtos.find(x=>x.id===it.id);if(!p)return;
+    const max=it.qtd+p.estoque;
+    q=Math.min(q,Math.max(1,max));
+    p.estoque-=q-it.qtd;saveProds();renderGrid();
+  }
+  it.qtd=q;
+  saveCart();renderTicket();
 });
 $('#pagBox').addEventListener('click',e=>{
   const b=e.target.closest('[data-pag]');if(!b)return;
@@ -957,8 +1016,8 @@ mascaraCent($('#fPreco'));$('#fPreco').dataset.cent=0;
 mascaraCent($('#inpRecebido'));$('#inpRecebido').dataset.cent=0;
 $('#btnLimpar').onclick=()=>{
   if(!carrinho.size)return;
-  if(confirm('Limpar o cupom atual? O estoque dos itens será devolvido.')){
-    carrinho.forEach(it=>devolve(it.id,it.qtd));
+  if(confirm('Limpar o cupom atual?'+(modoTeste?'':' O estoque dos itens será devolvido.'))){
+    if(!modoTeste)carrinho.forEach(it=>devolve(it.id,it.qtd));
     carrinho.clear();saveCart();renderTicket();
   }
 };
@@ -970,6 +1029,22 @@ $('#btnFinalizar').onclick=()=>{
   const gId=(grupoSel&&grupoSel!=='todos')?grupoSel:null;
   const recebido=(pagSel==='dinheiro')?(+($('#inpRecebido').dataset.cent||0)):0;
   const troco=(recebido>=total&&recebido>0)?recebido-total:null;
+  if(modoTeste){
+    /* 🧪 venda de teste: salva tudo, não mexe no estoque, não conta no oficial */
+    const venda={id:uid(),numero:CFG.proxNumTeste,dataISO:isoData(agora),hora:agora.toTimeString().slice(0,5),
+      itens,total,pag:pagSel,grupo:gId,grupoNome:gId?nomeGrupo(gId):null,
+      vendedor:vendSel?vendSel.id:null,vendedorNome:vendSel?vendSel.nome:null,
+      recebido:recebido||null,troco:troco,teste:true};
+    CFG.proxNumTeste++;
+    vendasTeste.push(venda);
+    carrinho.clear();
+    saveVendasTeste();saveCfg();saveCart();
+    enfileirar('vendaTeste',venda);
+    $('#inpRecebido').value='R$ 0,00';$('#inpRecebido').dataset.cent=0;
+    renderTicket();renderGrid();
+    showStamp(venda);
+    return;
+  }
   const venda={id:uid(),numero:CFG.proxNum,dataISO:isoData(agora),hora:agora.toTimeString().slice(0,5),
     itens,total,pag:pagSel,grupo:gId,grupoNome:gId?nomeGrupo(gId):null,
     vendedor:vendSel?vendSel.id:null,vendedorNome:vendSel?vendSel.nome:null,
@@ -978,13 +1053,15 @@ $('#btnFinalizar').onclick=()=>{
   CFG.proxNum++;
   carrinho.clear();
   saveVendas();saveCfg();saveCart();
-  enfileirar('venda',venda); /* grava a venda E baixa o estoque no servidor */
+  enfileirar('venda',venda);
   $('#inpRecebido').value='R$ 0,00';$('#inpRecebido').dataset.cent=0;
   renderTicket();renderGrid();
   showStamp(venda);
 };
 function showStamp(v){
-  $('#stNum').textContent='CUPOM #'+String(v.numero).padStart(4,'0')+(v.vendedorNome?' · 👤 '+v.vendedorNome:'');
+  $('#stOk').textContent=v.teste?'✓ VENDA TESTE':'✓ VENDA REGISTRADA';
+  $('#stampBox').classList.toggle('teste',!!v.teste);
+  $('#stNum').textContent=(v.teste?'TESTE #T':'CUPOM #')+String(v.numero).padStart(4,'0')+(v.vendedorNome?' · 👤 '+v.vendedorNome:'');
   $('#stTotal').textContent=fmt(v.total);
   $('#stPag').textContent=PAGS[v.pag].ico+' '+PAGS[v.pag].rot+(v.grupoNome?' · 🏷 '+v.grupoNome:'');
   const st=$('#stTroco');
@@ -1064,7 +1141,7 @@ $('#camFechar').onclick=fecharCamera;
 $('#camCapturar').onclick=capturarFoto;
 $('#camTrocar').onclick=trocarCamera;
 
-/* ================= ADMIN: PRODUTOS (lista em ordem alfabética) ================= */
+/* ================= ADMIN: PRODUTOS ================= */
 function renderGrpChecks(sel=[]){
   const wrap=$('#grpChecks');
   if(!grupos.length){wrap.innerHTML='<p class="nota" style="margin:0">Nenhum grupo criado. Crie na aba <b>GRUPOS</b> para separar produtos por local de venda (opcional).</p>';return;}
@@ -1237,7 +1314,7 @@ function renderVends(){
     const n=vendas.filter(x=>x.vendedor===v.id).length;
     return `<div class="prod-row" style="animation-delay:${Math.min(i*40,300)}ms">
       <div class="pr-thumb" style="display:grid;place-items:center;font-size:24px;background:var(--papel2)">👤</div>
-      <div class="pr-info"><b>${esc(v.nome)}</b><small>${n} venda(s) registrada(s)</small></div>
+      <div class="pr-info"><b>${esc(v.nome)}</b><small>${n} venda(s) oficial(is) registrada(s)</small></div>
       <div class="pr-acoes">
         <button class="btn btn-mini btn-fant" data-vren="${v.id}" style="color:var(--tinta);border-color:var(--tinta)">RENOMEAR</button>
         <button class="btn btn-mini btn-fant" data-vsen="${v.id}" style="color:var(--tinta);border-color:var(--tinta)">NOVA SENHA</button>
@@ -1273,9 +1350,26 @@ $('#listaVends').addEventListener('click',e=>{
   }
 });
 
-/* ================= RELATÓRIO ================= */
+/* ================= RELATÓRIO + APAGAR VENDAS ================= */
 function vendasFiltradas(dia,selV,selG){
   return vendas.filter(v=>v.dataISO===dia&&(selV==='todos'||v.vendedor===selV)&&(selG==='todos'||v.grupo===selG));
+}
+function cardVenda(v){
+  return `<details class="venda-card">
+    <summary>
+      <span class="mono">${v.teste?'#T':'#'}${String(v.numero).padStart(4,'0')}</span>
+      <span class="mono" style="color:rgba(11,36,71,.6)">${v.hora}</span>
+      ${v.teste?'<span class="vc-teste">🧪 TESTE</span>':''}
+      ${v.vendedorNome?`<span class="vc-vend">👤 ${esc(v.vendedorNome)}</span>`:''}
+      <span class="vc-pag">${PAGS[v.pag].ico} ${PAGS[v.pag].rot}</span>
+      ${v.grupoNome?`<span class="vc-grp">🏷 ${esc(v.grupoNome)}</span>`:''}
+      <span class="vc-total mono">${fmt(v.total)}</span>
+    </summary>
+    <div class="vc-itens mono">
+      ${v.itens.map(i=>`<div><span>${i.qtd}× ${esc(i.nome)}</span><b>${fmt(i.preco*i.qtd)}</b></div>`).join('')}
+      ${v.recebido?`<div class="vc-troco">RECEBIDO ${fmt(v.recebido)} · TROCO ${fmt(v.troco||0)}</div>`:''}
+    </div>
+  </details>`;
 }
 function renderRelatorio(){
   const selV=$('#selVendRel'),selG=$('#selGrupoRel');
@@ -1295,27 +1389,40 @@ function renderRelatorio(){
   $('#relDin').textContent=fmt(por.dinheiro);$('#relDinN').textContent=nPor.dinheiro+' venda(s)';
   $('#relCar').textContent=fmt(por.cartao);$('#relCarN').textContent=nPor.cartao+' venda(s)';
   $('#relPix').textContent=fmt(por.pix);$('#relPixN').textContent=nPor.pix+' venda(s)';
-  $('#relVendas').innerHTML=doDia.length?doDia.slice().reverse().map(v=>`
-    <details class="venda-card">
-      <summary>
-        <span class="mono">#${String(v.numero).padStart(4,'0')}</span>
-        <span class="mono" style="color:rgba(11,36,71,.6)">${v.hora}</span>
-        ${v.vendedorNome?`<span class="vc-vend">👤 ${esc(v.vendedorNome)}</span>`:''}
-        <span class="vc-pag">${PAGS[v.pag].ico} ${PAGS[v.pag].rot}</span>
-        ${v.grupoNome?`<span class="vc-grp">🏷 ${esc(v.grupoNome)}</span>`:''}
-        <span class="vc-total mono">${fmt(v.total)}</span>
-      </summary>
-      <div class="vc-itens mono">
-        ${v.itens.map(i=>`<div><span>${i.qtd}× ${esc(i.nome)}</span><b>${fmt(i.preco*i.qtd)}</b></div>`).join('')}
-        ${v.recebido?`<div class="vc-troco">RECEBIDO ${fmt(v.recebido)} · TROCO ${fmt(v.troco||0)}</div>`:''}
-      </div>
-    </details>`).join('')
-  :`<div class="estado-vazio">Nenhuma venda registrada neste dia/filtro.</div>`;
+  $('#relVendas').innerHTML=doDia.length?doDia.slice().reverse().map(cardVenda).join('')
+    :`<div class="estado-vazio">Nenhuma venda oficial registrada neste dia/filtro.</div>`;
+  const tDia=vendasTeste.filter(v=>v.dataISO===dia);
+  $('#hTestes').hidden=!(verTestes&&tDia.length);
+  $('#relTestes').innerHTML=verTestes
+    ?(tDia.length?tDia.slice().reverse().map(cardVenda).join(''):'<div class="estado-vazio">Nenhuma venda de teste neste dia.</div>')
+    :'';
 }
 $('#inpDia').addEventListener('change',renderRelatorio);
 $('#selVendRel').addEventListener('change',renderRelatorio);
 $('#selGrupoRel').addEventListener('change',renderRelatorio);
 $('#btnHoje').onclick=()=>{$('#inpDia').value=hojeISO();renderRelatorio();};
+$('#btnVerTestes').onclick=()=>{
+  verTestes=!verTestes;
+  $('#btnVerTestes').classList.toggle('ativo',verTestes);
+  renderRelatorio();
+};
+/* 🗑 apaga vendas oficiais + testes em TODOS os aparelhos e na planilha */
+$('#btnApagarVendas').onclick=async()=>{
+  if(prompt('Apaga TODAS as vendas (oficiais e de teste) neste aparelho, na planilha e nos outros aparelhos ao sincronizar.\nDigite APAGAR para confirmar:')!=='APAGAR')return;
+  if(SCRIPT_URL&&navigator.onLine){
+    try{
+      const j=await postSheet({action:'limparVendas'});
+      if(j&&j.limpeza){CFG.limpezaTs=j.limpeza;saveCfg();}
+    }catch(e){toast('Sem conexão agora — limpando apenas neste aparelho');}
+  }
+  vendas=[];vendasTeste=[];
+  descartarVendasDaFila();
+  CFG.proxNum=1;CFG.proxNumTeste=1;
+  saveVendas();saveVendasTeste();saveCfg();
+  ultimaCarga=null;
+  reRenderTudo();
+  toast('Vendas apagadas ✓');
+};
 $('#btnCSV').onclick=()=>{
   const dia=$('#inpDia').value,selV=$('#selVendRel').value,selG=$('#selGrupoRel').value;
   const doDia=vendasFiltradas(dia,selV,selG);
@@ -1327,7 +1434,7 @@ $('#btnCSV').onclick=()=>{
   const a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
   a.download=`caixa-${dia}.csv`;a.click();
-  toast('CSV exportado ✓');
+  toast('CSV exportado ✓ (somente vendas oficiais)');
 };
 $('#btnImprimir').onclick=()=>{
   const dia=$('#inpDia').value,selV=$('#selVendRel').value,selG=$('#selGrupoRel').value;
@@ -1337,7 +1444,7 @@ $('#btnImprimir').onclick=()=>{
   doDia.forEach(v=>por[v.pag]=(por[v.pag]||0)+v.total);
   const rotV=selV==='todos'?'Geral da loja':(vendedores.find(x=>x.id===selV)||{nome:'—'}).nome;
   $('#printArea').innerHTML=`
-    <h1>${esc(CFG.loja)} — Fechamento de Caixa</h1>
+    <h1>${esc(CFG.loja)} — Fechamento de Caixa (OFICIAL)</h1>
     <p>Data: ${dataBR(dia)} · Vendedor: ${esc(rotV)} · Grupo: ${esc(selG==='todos'?'Todos os grupos':nomeGrupo(selG))}<br>Emitido em ${new Date().toLocaleString('pt-BR')} · ${doDia.length} venda(s)</p>
     <h2>Vendas</h2>
     <table>${doDia.map(v=>`
@@ -1358,9 +1465,9 @@ $('#btnImprimir').onclick=()=>{
 /* ================= CONFIG + SHEETS ================= */
 function renderConfig(){
   $('#cfgLoja').value=CFG.loja;
-  const t=['pdv_produtos','pdv_vendas','pdv_cfg','pdv_grupos','pdv_vendedores'].reduce((s,k)=>s+(localStorage.getItem(k)||'').length,0);
+  const t=['pdv_produtos','pdv_vendas','pdv_vendas_teste','pdv_cfg','pdv_grupos','pdv_vendedores'].reduce((s,k)=>s+(localStorage.getItem(k)||'').length,0);
   $('#stBar').style.width=Math.max(2,Math.min(100,t/4500000*100))+'%';
-  $('#stTxt').textContent=`${(t/1024).toFixed(0)} KB local · ${produtos.length} produto(s) · ${vendas.length} venda(s) · ${grupos.length} grupo(s) · ${vendedores.length} vendedor(es)`;
+  $('#stTxt').textContent=`${(t/1024).toFixed(0)} KB local · ${produtos.length} produto(s) · ${vendas.length} venda(s) oficial(is) · ${vendasTeste.length} teste(s)`;
   atualizaChipSync();
 }
 $('#formLoja').addEventListener('submit',e=>{
@@ -1393,12 +1500,12 @@ $('#btnGsBuscar').onclick=async()=>{
 function reRenderTudo(){
   renderHomeStats();renderGrid();renderTicket();renderProdutos();renderGrupos();
   renderVends();renderRelatorio();renderConfig();
-  updateGrupoChip();updateVendChip();
+  updateGrupoChip();updateVendChip();updateTesteUI();
 }
 $('#btnZerar').onclick=()=>{
   const r=prompt('Apaga os dados DESTE navegador (a planilha fica intacta).\nDigite APAGAR para confirmar:');
   if(r==='APAGAR'){
-    ['pdv_produtos','pdv_vendas','pdv_cfg','pdv_grupos','pdv_vendedores','pdv_carrinho','pdv_fila'].forEach(k=>localStorage.removeItem(k));
+    ['pdv_produtos','pdv_vendas','pdv_vendas_teste','pdv_cfg','pdv_grupos','pdv_vendedores','pdv_carrinho','pdv_fila'].forEach(k=>localStorage.removeItem(k));
     location.reload();
   }
 };
@@ -1408,7 +1515,7 @@ $('#btnZerar').onclick=()=>{
   loadAll();aplicarNome();
   $('#inpDia').value=hojeISO();
   tick();setInterval(tick,1000);
-  setFotoPreview();renderGrpChecks();renderHomeStats();updateGrupoChip();updateVendChip();renderGrid();renderTicket();renderConfig();
+  setFotoPreview();renderGrpChecks();renderHomeStats();updateGrupoChip();updateVendChip();updateTesteUI();renderGrid();renderTicket();renderConfig();
   filaLoad();atualizaChipSync();
   window.addEventListener('online',()=>processarFila());
   if(SCRIPT_URL&&navigator.onLine){
