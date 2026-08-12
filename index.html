@@ -495,7 +495,7 @@ img{display:block}button{font-family:inherit}
           <button class="btn btn-mini" type="button" id="btnGsEnviar">⬆ ENVIAR TUDO</button>
           <button class="btn btn-mini btn-fant" type="button" id="btnGsBuscar" style="color:var(--tinta);border-color:var(--tinta)">⬇ BAIXAR DA PLANILHA</button>
         </div>
-        <p class="nota">Sincronização automática a cada 10 segundos entre todos os aparelhos. <b>Fotos ficam somente neste aparelho</b> (limite do Sheets). Configure a URL no início do script do arquivo (SCRIPT_URL).</p>
+        <p class="nota">Sincronização automática a cada 10 segundos entre todos os aparelhos, com reenvio garantido de vendas. <b>Fotos ficam somente neste aparelho</b>. Se aparecer ❌, verifique a implantação (acesso "Qualquer pessoa").</p>
       </div>
       <div class="card">
         <h2>ARMAZENAMENTO</h2>
@@ -505,7 +505,7 @@ img{display:block}button{font-family:inherit}
       </div>
       <div class="card" style="border-color:var(--verm)">
         <h2 style="color:var(--verm)">ZONA DE PERIGO</h2>
-        <p class="nota" style="margin:0 0 12px">Apaga os dados DESTE navegador (a planilha não é apagada). Não há como desfazer.</p>
+        <p class="nota" style="margin:0 0 12px">Apaga os dados DESTE navegador (a planilha fica intacta). Não há como desfazer.</p>
         <button class="btn btn-verm" id="btnZerar" type="button">APAGAR DADOS DO APARELHO</button>
       </div>
     </div>
@@ -617,8 +617,9 @@ const saveCart=()=>localStorage.setItem('pdv_carrinho',JSON.stringify([...carrin
 const aplicarNome=()=>$$('.loja-nome').forEach(e=>e.textContent=CFG.loja||'Minha Loja');
 const nomeGrupo=id=>{const g=grupos.find(x=>x.id===id);return g?g.nome:'Todos os produtos';};
 
-/* ================= SINCRONIZAÇÃO GOOGLE SHEETS (10s) ================= */
-const sync={fila:[],ocupado:false};
+/* ============ SINCRONIZAÇÃO ROBUSTA (10s + reenvio + confirmação) ============ */
+const sync={fila:[],ocupado:false,falhas:0};
+let ultimaCarga=null;
 function filaLoad(){try{sync.fila=JSON.parse(localStorage.getItem('pdv_fila')||'[]');}catch(e){sync.fila=[];}}
 function filaSave(){localStorage.setItem('pdv_fila',JSON.stringify(sync.fila.slice(-50)));}
 let pubTimer=null;
@@ -632,25 +633,33 @@ function enfileirar(action,data){
   sync.fila.push({action,data});
   filaSave();atualizaChipSync();processarFila();
 }
+/* só considera enviado se a planilha responder {ok:true} */
 function postSheet(payload){
   return fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)})
-    .then(r=>{if(!r.ok)throw 0;return r.json();});
+    .then(r=>{if(!r.ok)throw 0;return r.json();})
+    .then(j=>{if(!j||j.ok!==true)throw 0;return j;});
 }
 function processarFila(){
   if(!SCRIPT_URL||sync.ocupado||!sync.fila.length||!navigator.onLine)return;
   sync.ocupado=true;
   const item=sync.fila.shift();
-  postSheet(item).then(()=>{filaSave();}).catch(()=>{sync.fila.unshift(item);filaSave();})
-    .finally(()=>{sync.ocupado=false;atualizaChipSync();if(sync.fila.length)setTimeout(processarFila,2000);});
+  postSheet(item)
+    .then(()=>{sync.falhas=0;filaSave();})
+    .catch(()=>{sync.falhas++;sync.fila.unshift(item);filaSave();})
+    .finally(()=>{
+      sync.ocupado=false;atualizaChipSync();
+      if(sync.fila.length&&sync.falhas<5)setTimeout(processarFila,2000);
+    });
 }
-/* Retorna: false = erro · 'ok' = nada mudou · 'mudou' = aplicou mudanças */
+/* retorna: false = erro · 'ok' = nada mudou · 'mudou' = aplicou mudanças */
 async function puxarSheet(){
   if(!SCRIPT_URL||!navigator.onLine)return false;
   try{
     const r=await fetch(SCRIPT_URL+'?action=carregar&t='+Date.now());
     const j=await r.json();
     const d=j&&j.dados?j.dados:null;
-    if(!d)return false;
+    if(!d)throw 0;
+    ultimaCarga=d;sync.falhas=0;
     const fotos={};produtos.forEach(p=>{if(p.foto)fotos[p.id]=p.foto;});
     const nProds=(d.produtos||[]).map(p=>({...p,foto:fotos[p.id]||null}));
     const nGrupos=d.grupos||[];
@@ -664,36 +673,62 @@ async function puxarSheet(){
       JSON.stringify(nGrupos)!==JSON.stringify(grupos)||
       JSON.stringify(nVends)!==JSON.stringify(vendedores)||
       JSON.stringify(nVendas.map(v=>v.id+'|'+v.numero+'|'+v.total))!==JSON.stringify(vendas.map(v=>v.id+'|'+v.numero+'|'+v.total));
-    if(!mudou)return 'ok';
-    importando=true;
-    produtos=nProds;grupos=nGrupos;vendedores=nVends;vendas=nVendas;
-    CFG.proxNum=vendas.reduce((m,v)=>Math.max(m,v.numero||0),0)+1;
-    localStorage.setItem('pdv_produtos',JSON.stringify(produtos));
-    localStorage.setItem('pdv_grupos',JSON.stringify(grupos));
-    localStorage.setItem('pdv_vendedores',JSON.stringify(vendedores));
-    localStorage.setItem('pdv_vendas',JSON.stringify(vendas));
-    saveCfg();
-    importando=false;
-    return 'mudou';
-  }catch(e){importando=false;return false;}
+    if(mudou){
+      importando=true;
+      produtos=nProds;grupos=nGrupos;vendedores=nVends;vendas=nVendas;
+      CFG.proxNum=vendas.reduce((m,v)=>Math.max(m,v.numero||0),0)+1;
+      localStorage.setItem('pdv_produtos',JSON.stringify(produtos));
+      localStorage.setItem('pdv_grupos',JSON.stringify(grupos));
+      localStorage.setItem('pdv_vendedores',JSON.stringify(vendedores));
+      localStorage.setItem('pdv_vendas',JSON.stringify(vendas));
+      saveCfg();
+      importando=false;
+    }
+    atualizaChipSync();
+    return mudou?'mudou':'ok';
+  }catch(e){
+    importando=false;sync.falhas++;atualizaChipSync();
+    return false;
+  }
 }
-/* ⏱️ a cada 10 segundos: envia pendências e baixa novidades de outros aparelhos */
+/* venda que não chegou na planilha é reenviada (servidor ignora duplicadas) */
+function repushFaltando(){
+  if(!SCRIPT_URL||!ultimaCarga)return;
+  const ids=new Set((ultimaCarga.vendas||[]).map(v=>v.id));
+  vendas.forEach(v=>{
+    if(!ids.has(v.id)&&!sync.fila.some(f=>f.action==='venda'&&f.data&&f.data.id===v.id)){
+      enfileirar('venda',v);
+    }
+  });
+}
 setInterval(async()=>{
   if(!SCRIPT_URL||!navigator.onLine)return;
   if(sync.fila.length||sync.ocupado){processarFila();return;}
   const res=await puxarSheet();
   if(res==='mudou')reRenderTudo();
+  repushFaltando();
 },10000);
+/* ao voltar para a aba/aplicativo, sincroniza na hora */
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState!=='visible'||!SCRIPT_URL||!navigator.onLine)return;
+  processarFila();
+  puxarSheet().then(res=>{if(res==='mudou')reRenderTudo();repushFaltando();});
+});
 function atualizaChipSync(){
   const n=sync.fila.length;
   $$('#chipSync,#chipSync2').forEach(c=>{
     if(!SCRIPT_URL){c.hidden=true;return;}
     c.hidden=false;
-    c.textContent=n?('⏳ '+n):'☁️';
-    c.title=n?'Enviando para a planilha…':'Sincronizado com a planilha';
+    if(sync.falhas>=3){c.textContent='❌';c.title='Falha na conexão com a planilha';}
+    else if(n){c.textContent='⏳ '+n;c.title='Enviando para a planilha…';}
+    else{c.textContent='☁️';c.title='Sincronizado';}
   });
   const st=$('#gsStatus');
-  if(st)st.textContent=SCRIPT_URL?('Conectado à planilha.'+(n?` ${n} envio(s) pendente(s).`:' Tudo em dia.')):'Não configurado. Cole a URL do Apps Script na linha SCRIPT_URL do arquivo.';
+  if(st){
+    if(!SCRIPT_URL)st.textContent='Não configurado. Cole a URL do Apps Script na linha SCRIPT_URL do arquivo.';
+    else if(sync.falhas>=3)st.textContent='❌ Falha ao conectar na planilha. Verifique: 1) URL /exec colada em SCRIPT_URL; 2) na implantação, "Quem tem acesso" = "Qualquer pessoa"; 3) se editou o script, publique uma NOVA VERSÃO.';
+    else st.textContent='Conectado à planilha.'+(n?` ${n} envio(s) pendente(s).`:' Tudo em dia.');
+  }
 }
 
 /* ================= NAVEGAÇÃO ================= */
@@ -1337,6 +1372,7 @@ $('#btnZerar').onclick=()=>{
     const res=await puxarSheet();
     if(res==='mudou')reRenderTudo();
     processarFila();
+    repushFaltando();
   }
 })();
 window.addEventListener('beforeunload',fecharCamera);
