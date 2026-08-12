@@ -94,7 +94,6 @@ img{display:block}button{font-family:inherit}
 .tag-deco small{display:block;font-family:'Space Mono';font-weight:700;font-size:12px;letter-spacing:.16em;margin-top:8px;color:rgba(255,255,255,.85)}
 .tag-deco b{display:block;font-family:'Archivo Black';font-size:52px;line-height:1.05}
 .tag-deco i{display:block;font-style:normal;font-weight:800;color:#FFE1D6;margin-top:8px;letter-spacing:.22em;font-size:11px}
-.rodape{text-align:center;padding:0 20px 30px;font-size:12px;color:rgba(255,255,255,.5)}
 #tela-venda.on{display:block}
 .pdv{display:grid;grid-template-columns:1fr 396px;gap:22px;max-width:100%;margin:0 auto;padding:20px 24px;align-items:start}
 .busca{display:flex;align-items:center;gap:10px;background:var(--papel);border:2px solid var(--tinta);border-radius:12px;padding:0 14px;margin-bottom:16px;box-shadow:0 4px 0 rgba(0,0,0,.35)}
@@ -325,7 +324,6 @@ img{display:block}button{font-family:inherit}
       </div>
     </div>
   </div>
-  <p class="rodape">Feito para rodar no GitHub Pages · sincroniza com o Google Sheets.</p>
 </section>
 
 <section class="tela" id="tela-venda" hidden>
@@ -497,7 +495,7 @@ img{display:block}button{font-family:inherit}
           <button class="btn btn-mini" type="button" id="btnGsEnviar">⬆ ENVIAR TUDO</button>
           <button class="btn btn-mini btn-fant" type="button" id="btnGsBuscar" style="color:var(--tinta);border-color:var(--tinta)">⬇ BAIXAR DA PLANILHA</button>
         </div>
-        <p class="nota">Produtos, vendas, grupos e vendedores são sincronizados automaticamente. <b>Fotos ficam somente neste aparelho</b> (limite do Sheets). Configure a URL no início do script do arquivo (SCRIPT_URL).</p>
+        <p class="nota">Sincronização automática a cada 10 segundos entre todos os aparelhos. <b>Fotos ficam somente neste aparelho</b> (limite do Sheets). Configure a URL no início do script do arquivo (SCRIPT_URL).</p>
       </div>
       <div class="card">
         <h2>ARMAZENAMENTO</h2>
@@ -610,7 +608,6 @@ function loadAll(){
     carrinho=new Map(c.filter(it=>produtos.some(p=>p.id===it.id)).map(it=>[it.id,it]));
   }catch(e){carrinho=new Map();}
 }
-/* ---- salvamento local + publicação na planilha ---- */
 const saveProds=()=>{localStorage.setItem('pdv_produtos',JSON.stringify(produtos)); if(!importando)publicarProdutos();};
 const saveGrupos=()=>{localStorage.setItem('pdv_grupos',JSON.stringify(grupos)); if(!importando)enfileirar('grupos',grupos);};
 const saveVends=()=>{localStorage.setItem('pdv_vendedores',JSON.stringify(vendedores)); if(!importando)enfileirar('vendedores',vendedores);};
@@ -620,7 +617,7 @@ const saveCart=()=>localStorage.setItem('pdv_carrinho',JSON.stringify([...carrin
 const aplicarNome=()=>$$('.loja-nome').forEach(e=>e.textContent=CFG.loja||'Minha Loja');
 const nomeGrupo=id=>{const g=grupos.find(x=>x.id===id);return g?g.nome:'Todos os produtos';};
 
-/* ================= SINCRONIZAÇÃO GOOGLE SHEETS ================= */
+/* ================= SINCRONIZAÇÃO GOOGLE SHEETS (10s) ================= */
 const sync={fila:[],ocupado:false};
 function filaLoad(){try{sync.fila=JSON.parse(localStorage.getItem('pdv_fila')||'[]');}catch(e){sync.fila=[];}}
 function filaSave(){localStorage.setItem('pdv_fila',JSON.stringify(sync.fila.slice(-50)));}
@@ -646,6 +643,7 @@ function processarFila(){
   postSheet(item).then(()=>{filaSave();}).catch(()=>{sync.fila.unshift(item);filaSave();})
     .finally(()=>{sync.ocupado=false;atualizaChipSync();if(sync.fila.length)setTimeout(processarFila,2000);});
 }
+/* Retorna: false = erro · 'ok' = nada mudou · 'mudou' = aplicou mudanças */
 async function puxarSheet(){
   if(!SCRIPT_URL||!navigator.onLine)return false;
   try{
@@ -653,16 +651,22 @@ async function puxarSheet(){
     const j=await r.json();
     const d=j&&j.dados?j.dados:null;
     if(!d)return false;
-    importando=true;
     const fotos={};produtos.forEach(p=>{if(p.foto)fotos[p.id]=p.foto;});
-    produtos=(d.produtos||[]).map(p=>({...p,foto:fotos[p.id]||null}));
-    grupos=d.grupos||[];
-    vendedores=d.vendedores||[];
-    if(d.vendas&&d.vendas.length){
-      const ids=new Set(d.vendas.map(v=>v.id));
-      vendas=d.vendas.concat(vendas.filter(v=>!ids.has(v.id)));
-      vendas.sort((a,b)=>(a.numero||0)-(b.numero||0));
-    }
+    const nProds=(d.produtos||[]).map(p=>({...p,foto:fotos[p.id]||null}));
+    const nGrupos=d.grupos||[];
+    const nVends=d.vendedores||[];
+    const ids=new Set((d.vendas||[]).map(v=>v.id));
+    const nVendas=(d.vendas||[]).concat(vendas.filter(v=>!ids.has(v.id)))
+      .sort((a,b)=>(a.numero||0)-(b.numero||0));
+    const strip=a=>JSON.stringify(a.map(p=>{const{foto,...r}=p;return r;}));
+    const mudou=
+      strip(nProds)!==strip(produtos)||
+      JSON.stringify(nGrupos)!==JSON.stringify(grupos)||
+      JSON.stringify(nVends)!==JSON.stringify(vendedores)||
+      JSON.stringify(nVendas.map(v=>v.id+'|'+v.numero+'|'+v.total))!==JSON.stringify(vendas.map(v=>v.id+'|'+v.numero+'|'+v.total));
+    if(!mudou)return 'ok';
+    importando=true;
+    produtos=nProds;grupos=nGrupos;vendedores=nVends;vendas=nVendas;
     CFG.proxNum=vendas.reduce((m,v)=>Math.max(m,v.numero||0),0)+1;
     localStorage.setItem('pdv_produtos',JSON.stringify(produtos));
     localStorage.setItem('pdv_grupos',JSON.stringify(grupos));
@@ -670,9 +674,16 @@ async function puxarSheet(){
     localStorage.setItem('pdv_vendas',JSON.stringify(vendas));
     saveCfg();
     importando=false;
-    return true;
+    return 'mudou';
   }catch(e){importando=false;return false;}
 }
+/* ⏱️ a cada 10 segundos: envia pendências e baixa novidades de outros aparelhos */
+setInterval(async()=>{
+  if(!SCRIPT_URL||!navigator.onLine)return;
+  if(sync.fila.length||sync.ocupado){processarFila();return;}
+  const res=await puxarSheet();
+  if(res==='mudou')reRenderTudo();
+},10000);
 function atualizaChipSync(){
   const n=sync.fila.length;
   $$('#chipSync,#chipSync2').forEach(c=>{
@@ -888,7 +899,7 @@ $('#btnFinalizar').onclick=()=>{
   CFG.proxNum++;
   carrinho.clear();
   saveVendas();saveCfg();saveCart();
-  enfileirar('venda',venda); /* 📩 vai para a aba Vendas da planilha */
+  enfileirar('venda',venda);
   renderTicket();renderGrid();
   showStamp(venda);
 };
@@ -1296,14 +1307,14 @@ $('#btnGsEnviar').onclick=()=>{
 };
 $('#btnGsBuscar').onclick=async()=>{
   if(!SCRIPT_URL){toast('Cole primeiro a URL do Apps Script na linha SCRIPT_URL do arquivo');return;}
-  toast('Baixando da planilha…');
-  const ok=await puxarSheet();
-  if(ok){reRenderTudo();toast('Dados importados da planilha ✓');}
+  const res=await puxarSheet();
+  if(res==='mudou'){reRenderTudo();toast('Dados atualizados da planilha ✓');}
+  else if(res==='ok'){toast('Tudo já está atualizado ✓');}
   else toast('Não foi possível baixar (verifique URL/conexão)');
 };
 function reRenderTudo(){
   renderHomeStats();renderGrid();renderTicket();renderProdutos();renderGrupos();
-  renderVends();renderGrpChecks();renderRelatorio();renderConfig();
+  renderVends();renderRelatorio();renderConfig();
   updateGrupoChip();updateVendChip();
 }
 $('#btnZerar').onclick=()=>{
@@ -1322,10 +1333,9 @@ $('#btnZerar').onclick=()=>{
   setFotoPreview();renderGrpChecks();renderHomeStats();updateGrupoChip();updateVendChip();renderGrid();renderTicket();renderConfig();
   filaLoad();atualizaChipSync();
   window.addEventListener('online',()=>processarFila());
-  setInterval(()=>{if(SCRIPT_URL)processarFila();},20000);
   if(SCRIPT_URL&&navigator.onLine){
-    const ok=await puxarSheet();
-    if(ok){reRenderTudo();toast('Sincronizado com a planilha ✓');}
+    const res=await puxarSheet();
+    if(res==='mudou')reRenderTudo();
     processarFila();
   }
 })();
